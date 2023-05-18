@@ -1,0 +1,97 @@
+[gd_scene load_steps=2 format=3 uid="uid://c2qfrtmj3nsfe"]
+
+[ext_resource type="Script" path="res://Battle/battle_scene.gd" id="1_xlje3"]
+
+[node name="BattleScene" type="Control"]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 1024.0
+offset_bottom = 576.0
+script = ExtResource("1_xlje3")
+
+[node name="AttackMenu" type="VBoxContainer" parent="."]
+visible = false
+layout_mode = 0
+offset_top = 384.0
+offset_right = 450.0
+offset_bottom = 509.0
+scale = Vector2(1.5, 1.5)
+alignment = 1
+
+[node name="MovesBox" type="GridContainer" parent="AttackMenu"]
+layout_mode = 2
+columns = 2
+
+[node name="Move1" type="Button" parent="AttackMenu/MovesBox"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+text = "Tackle"
+
+[node name="Move2" type="Button" parent="AttackMenu/MovesBox"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+text = "Scratch"
+
+[node name="Move3" type="Button" parent="AttackMenu/MovesBox"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+text = "Tail Whip"
+
+[node name="Move4" type="Button" parent="AttackMenu/MovesBox"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+text = "Quick Attack"
+
+[node name="Enemy" type="VBoxContainer" parent="."]
+layout_mode = 0
+offset_right = 450.0
+offset_bottom = 120.0
+
+[node name="Name" type="Label" parent="Enemy"]
+layout_mode = 2
+text = "Enemy
+"
+horizontal_alignment = 1
+
+[node name="HP" type="ProgressBar" parent="Enemy"]
+layout_mode = 2
+step = 1.0
+value = 100.0
+show_percentage = false
+
+[node name="Player" type="VBoxContainer" parent="."]
+layout_mode = 0
+offset_left = 572.0
+offset_top = 300.0
+offset_right = 1022.0
+offset_bottom = 420.0
+
+[node name="Name" type="Label" parent="Player"]
+layout_mode = 2
+text = "Player
+"
+horizontal_alignment = 1
+
+[node name="HP" type="ProgressBar" parent="Player"]
+layout_mode = 2
+step = 1.0
+value = 100.0
+show_percentage = false
+
+[node name="DescriptionBox" type="Label" parent="."]
+layout_mode = 2
+offset_top = 458.0
+offset_right = 624.0
+offset_bottom = 577.0
+text = "Wild monster appeared!"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[connection signal="pressed" from="AttackMenu/MovesBox/Move1" to="." method="_on_move_1_pressed"]
+[connection signal="pressed" from="AttackMenu/MovesBox/Move2" to="." method="_on_move_2_pressed"]
+[connection signal="pressed" from="AttackMenu/MovesBox/Move3" to="." method="_on_move_3_pressed"]
+[connection signal="pressed" from="AttackMenu/MovesBox/Move4" to="." method="_on_move_4_pressed"]
