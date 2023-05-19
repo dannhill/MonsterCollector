@@ -1,0 +1,50 @@
+[
+	{
+		"species" : "Goblin",
+        "type_first": 1,
+        "type_second": 1,
+		"nickname" : "Gianni",
+		"level" : 50,
+		"hp" : 73,
+		"hp_max" : 73,
+		"attack" : 18,
+		"defense" : 18,
+		"sp_attack" : 18,
+		"sp_defense" : 18,
+		"speed" : 18
+	},
+	{
+		"species" : "Dragon",
+		"type_first": 2,
+		"type_second": 2,
+		"nickname" : "Drago",
+		"level" : 50,
+		"hp" : 73,
+		"hp_max" : 73,
+		"attack" : 18,
+		"defense" : 18,
+		"sp_attack" : 18,
+		"sp_defense" : 18,
+		"speed" : 18
+	},
+	{
+		"species" : "Orc",
+		"type_first": 3,
+		"type_second": 3,
+		"nickname" : "Orco",
+		"level" : 50,
+		"hp" : 73,
+		"hp_max" : 73,
+		"attack" : 18,
+		"defense" : 18,
+		"sp_attack" : 18,
+		"sp_defense" : 18,
+		"speed" : 18
+	},
+	{
+	},
+	{
+	},
+	{
+	}
+]

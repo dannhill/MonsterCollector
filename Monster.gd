@@ -8,7 +8,8 @@ func _init(species : String, type_first : Typ.e, type_second : Typ.e, gender_pro
 	self.nickname = nickname
 	self.moves = Moves.new()
 	self.level = 50
-	self.hp = (self.hp_base * 2 + 18 + 21 * level) / 100 + level + 10
+	self.hp_max = (self.hp_base * 2 + 18 + 21 * level) / 100 + level + 10
+	self.hp = self.hp_max
 	# Other stats are different but all the same between them
 	self.attack = (2 * self.attack_base + 18 + 21 * level) / 100 + 5
 	self.defense = (2 * self.defense_base + 18 + 21 * level) / 100 + 5
@@ -33,6 +34,7 @@ var level : int
 
 var moves : Moves
 var hp : int
+var hp_max : int
 var attack : int
 var defense : int
 var sp_attack : int

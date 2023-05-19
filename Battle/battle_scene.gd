@@ -2,14 +2,16 @@ extends Control
 
 signal ui_select_pressed
 
+#temporary setup: must create an enemy team
 @onready var MovesBox = $AttackMenu/MovesBox
-@onready var enemy : Monster = Monster.new("Goblino", Typ.e.GOBLIN, Typ.e.GOBLIN, 0.5)
-@onready var player : Monster = Monster.new("Eroe", Typ.e.KNIGHT, Typ.e.KNIGHT, 0.5)
+@onready var team : Array[Monster] = SaveData.load_team()
+@onready var enemy : Monster = team[0]
+@onready var player : Monster = team[1]
 @onready var rng : RandomNumberGenerator = RandomNumberGenerator.new()
 
 const CRIT_CHANCE : int = 25
 
-func _ready():
+func _ready() -> void:
 	init_monsters(player, enemy)
 	init_moves(player)
 	rng.randomize()
@@ -17,24 +19,24 @@ func _ready():
 	start_encounter()
 
 # I have to find a way to remove this check or see if it impacts in the performance or is irrelevant
-func _process(delta):
+func _process(delta) -> void:
 	if Input.is_action_pressed("ui_select"):
 		emit_signal("ui_select_pressed")
 
-func init_monsters(player : Monster = player, enemy : Monster = enemy):
+func init_monsters(player : Monster = player, enemy : Monster = enemy) -> void:
 	$Enemy/Name.text = enemy.nickname
 	$Enemy/HP.max_value = enemy.hp
 	$Player/Name.text = player.nickname
 	$Player/HP.max_value = player.hp
 	
 
-func init_moves(player : Monster = player):
+func init_moves(player : Monster = player) -> void:
 	MovesBox.get_node("Move1").text = player.moves.first.nickname
 	MovesBox.get_node("Move2").text = player.moves.second.nickname
 	MovesBox.get_node("Move3").text = player.moves.third.nickname
 	MovesBox.get_node("Move4").text = player.moves.fourth.nickname
 
-func damage_calculation(move : Move, player : Monster = player, enemy : Monster = enemy):
+func damage_calculation(move : Move, player : Monster = player, enemy : Monster = enemy) -> void:
 	var critical_hit : float = 1.0
 	if (rng.randi_range(0, 100) <= CRIT_CHANCE):
 		critical_hit += 0.5
@@ -45,7 +47,7 @@ func damage_calculation(move : Move, player : Monster = player, enemy : Monster 
 	print(third_par)
 	$Enemy/HP.value -= third_par
 
-func start_encounter():
+func start_encounter() -> void:
 	await self.ui_select_pressed
 	$DescriptionBox.text = "Battle with " + enemy.nickname + " begins!"
 	await get_tree().create_timer(3.0).timeout
@@ -53,19 +55,19 @@ func start_encounter():
 	$AttackMenu.visible = true
 	
 
-func _on_move_1_pressed():
+func _on_move_1_pressed() -> void:
 	if rng.randi_range(0,100) <= player.moves.first.accuracy:
 		damage_calculation(player.moves.first, player, enemy)
 
-func _on_move_2_pressed():
+func _on_move_2_pressed() -> void:
 	if rng.randi_range(0,100) <= player.moves.second.accuracy:
 		damage_calculation(player.moves.second, player, enemy)
 
-func _on_move_3_pressed():
+func _on_move_3_pressed() -> void:
 	if rng.randi_range(0,100) <= player.moves.third.accuracy:
 		damage_calculation(player.moves.third, player, enemy)
 
-func _on_move_4_pressed():
+func _on_move_4_pressed() -> void:
 	if rng.randi_range(0,100) <= player.moves.fourth.accuracy:
 		damage_calculation(player.moves.fourth, player, enemy)
 		
