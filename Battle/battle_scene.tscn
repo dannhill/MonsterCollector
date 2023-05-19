@@ -22,25 +22,25 @@ alignment = 1
 layout_mode = 2
 columns = 2
 
-[node name="Move1" type="Button" parent="AttackMenu/MovesBox"]
+[node name="Move0" type="Button" parent="AttackMenu/MovesBox"]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 text = "Tackle"
 
-[node name="Move2" type="Button" parent="AttackMenu/MovesBox"]
+[node name="Move1" type="Button" parent="AttackMenu/MovesBox"]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 text = "Scratch"
 
-[node name="Move3" type="Button" parent="AttackMenu/MovesBox"]
+[node name="Move2" type="Button" parent="AttackMenu/MovesBox"]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 text = "Tail Whip"
 
-[node name="Move4" type="Button" parent="AttackMenu/MovesBox"]
+[node name="Move3" type="Button" parent="AttackMenu/MovesBox"]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
@@ -91,7 +91,7 @@ text = "Wild monster appeared!"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[connection signal="pressed" from="AttackMenu/MovesBox/Move1" to="." method="_on_move_1_pressed"]
-[connection signal="pressed" from="AttackMenu/MovesBox/Move2" to="." method="_on_move_2_pressed"]
-[connection signal="pressed" from="AttackMenu/MovesBox/Move3" to="." method="_on_move_3_pressed"]
-[connection signal="pressed" from="AttackMenu/MovesBox/Move4" to="." method="_on_move_4_pressed"]
+[connection signal="pressed" from="AttackMenu/MovesBox/Move0" to="." method="_on_move_1_pressed"]
+[connection signal="pressed" from="AttackMenu/MovesBox/Move1" to="." method="_on_move_2_pressed"]
+[connection signal="pressed" from="AttackMenu/MovesBox/Move2" to="." method="_on_move_3_pressed"]
+[connection signal="pressed" from="AttackMenu/MovesBox/Move3" to="." method="_on_move_4_pressed"]

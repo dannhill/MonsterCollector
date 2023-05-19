@@ -1,0 +1,6 @@
+moves_data.json
+// Better order the moves in alpabetical order in outer array to make 
+// the search quicker with a binary search because I got constant random access
+// time and i got the size of the array that is constant
+
+monsters_data.json

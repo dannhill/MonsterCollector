@@ -1,8 +1,8 @@
 [
 	{
 		"species" : "Goblin",
-        "type_first": 1,
-        "type_second": 1,
+		"type_first": 1,
+		"type_second": 1,
 		"nickname" : "Gianni",
 		"level" : 50,
 		"hp" : 73,
@@ -11,7 +11,14 @@
 		"defense" : 18,
 		"sp_attack" : 18,
 		"sp_defense" : 18,
-		"speed" : 18
+		"speed" : 18,
+		"moves" :
+		[
+			"Fireball",
+			"Iceball",
+			"Thunderball",
+			"Earthball" 
+		]
 	},
 	{
 		"species" : "Dragon",
@@ -25,7 +32,14 @@
 		"defense" : 18,
 		"sp_attack" : 18,
 		"sp_defense" : 18,
-		"speed" : 18
+		"speed" : 18,
+		"moves" :
+		[
+			"Fireball",
+			"Iceball",
+			"Thunderball",
+			"Earthball"
+		]
 	},
 	{
 		"species" : "Orc",
@@ -39,7 +53,14 @@
 		"defense" : 18,
 		"sp_attack" : 18,
 		"sp_defense" : 18,
-		"speed" : 18
+		"speed" : 18,
+		"moves" :
+		[
+			"Fireball",
+			"Iceball",
+			"Thunderball",
+			"Earthball" 
+		]
 	},
 	{
 	},

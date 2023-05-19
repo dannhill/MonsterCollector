@@ -1,0 +1,30 @@
+[
+	{
+		"nickname" : "Fireball",
+		"power" : 40,
+		"accuracy" : 100,
+		"power_points" : 35,
+		"type" : 0
+	},
+	{
+		"nickname" : "Iceball",
+		"power" : 40,
+		"accuracy" : 100,
+		"power_points" : 35,
+		"type" : 1
+	},
+	{
+		"nickname" : "Thunderball",
+		"power" : 40,
+		"accuracy" : 100,
+		"power_points" : 35,
+		"type" : 2
+	},
+	{
+		"nickname" : "Earthball",
+		"power" : 40,
+		"accuracy" : 100,
+		"power_points" : 35,
+		"type" : 3
+	}
+]

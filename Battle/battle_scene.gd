@@ -29,23 +29,27 @@ func init_monsters(player : Monster = player, enemy : Monster = enemy) -> void:
 	$Player/Name.text = player.nickname
 	$Player/HP.max_value = player.hp
 	
-
+#NULL the move array could be empty or an entry could be empty
 func init_moves(player : Monster = player) -> void:
-	MovesBox.get_node("Move1").text = player.moves.first.nickname
-	MovesBox.get_node("Move2").text = player.moves.second.nickname
-	MovesBox.get_node("Move3").text = player.moves.third.nickname
-	MovesBox.get_node("Move4").text = player.moves.fourth.nickname
+	# for loop to initialize all four moves
+	for i in range(0,4):
+		MovesBox.get_node("Move" + str(i)).text = player.moves[i].nickname
 
-func damage_calculation(move : Move, player : Monster = player, enemy : Monster = enemy) -> void:
+func damage_calculation(move : Move, attacker : Monster = player, attacked : Monster = enemy) -> void:
 	var critical_hit : float = 1.0
 	if (rng.randi_range(0, 100) <= CRIT_CHANCE):
 		critical_hit += 0.5
 	
-	var first_par : float = 2 * player.level * 0.2  + 2
-	var second_par : float = first_par * move.power * player.attack / enemy.defense * 0.02 + 2
+	var first_par : float = 2 * attacker.level * 0.2  + 2
+	var second_par : float = first_par * move.power * attacker.attack / attacked.defense * 0.02 + 2
 	var third_par : int = int(second_par * (rng.randf_range(85,100) / 100) * critical_hit)
 	print(third_par)
-	$Enemy/HP.value -= third_par
+	# match to see if the attacker is player or enemy
+	match attacked == enemy:
+		true:
+			$Enemy/HP.value -= third_par
+		false:
+			$Player/HP.value -= third_par
 
 func start_encounter() -> void:
 	await self.ui_select_pressed
@@ -54,20 +58,52 @@ func start_encounter() -> void:
 	$DescriptionBox.visible = false
 	$AttackMenu.visible = true
 	
+func enemy_turn():
+	#remove the hud and make the enemy attack
+	$AttackMenu.visible = false
+	compute_attack(enemy, player, enemy.moves[rng.randi_range(0,4)])
 
+	await get_tree().create_timer(3.0).timeout
+	$AttackMenu.visible = true
+
+#OPTIMIZE Maybe can be optimized?
+#NULL move could not exist
 func _on_move_1_pressed() -> void:
-	if rng.randi_range(0,100) <= player.moves.first.accuracy:
-		damage_calculation(player.moves.first, player, enemy)
+	$AttackMenu.visible = false
+	compute_attack(player, enemy, player.moves[0])
+	await get_tree().create_timer(3.0).timeout
+	enemy_turn()
 
+#NULL move could not exist
 func _on_move_2_pressed() -> void:
-	if rng.randi_range(0,100) <= player.moves.second.accuracy:
-		damage_calculation(player.moves.second, player, enemy)
+	$AttackMenu.visible = false
+	compute_attack(player, enemy, player.moves[1])
+	await get_tree().create_timer(3.0).timeout
+	enemy_turn()
 
+#NULL move could not exist
 func _on_move_3_pressed() -> void:
-	if rng.randi_range(0,100) <= player.moves.third.accuracy:
-		damage_calculation(player.moves.third, player, enemy)
+	$AttackMenu.visible = false
+	compute_attack(player, enemy, player.moves[2])
+	await get_tree().create_timer(3.0).timeout
+	enemy_turn()
 
+#NULL move could not exist
 func _on_move_4_pressed() -> void:
-	if rng.randi_range(0,100) <= player.moves.fourth.accuracy:
-		damage_calculation(player.moves.fourth, player, enemy)
+	$AttackMenu.visible = false
+	compute_attack(player, enemy, player.moves[3])
+	await get_tree().create_timer(3.0).timeout
+	enemy_turn()
 		
+func attack_missed(attacker : Monster) -> void:
+	$DescriptionBox.text = attacker.nickname + " missed!"
+	$DescriptionBox.visible = true
+	await get_tree().create_timer(3.0).timeout
+	$DescriptionBox.visible = false
+	$AttackMenu.visible = true
+
+func compute_attack(attacker : Monster, attacked : Monster, move : Move) -> void:
+	if rng.randi_range(0,100) <= move.accuracy:
+		damage_calculation(move, attacker, attacked)
+	else:
+		attack_missed(attacker)
