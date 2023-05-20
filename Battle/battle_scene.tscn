@@ -1,7 +1,25 @@
-[gd_scene load_steps=3 format=3 uid="uid://c2qfrtmj3nsfe"]
+[gd_scene load_steps=9 format=3 uid="uid://c2qfrtmj3nsfe"]
 
 [ext_resource type="Script" path="res://Battle/battle_scene.gd" id="1_xlje3"]
 [ext_resource type="AudioStream" uid="uid://gc3ee8jborgq" path="res://Music/'Legionnaire' x2 by @ScottBuckley.mp3" id="2_ddap6"]
+[ext_resource type="Texture2D" uid="uid://stkbqet6rkmt" path="res://Sprites/background_b&w.png" id="2_ksci7"]
+[ext_resource type="Texture2D" uid="uid://d2jhgshwgoiwa" path="res://Sprites/pidgey_back.png" id="2_m8e0f"]
+[ext_resource type="Texture2D" uid="uid://dnfvmvk7dxmuc" path="res://Sprites/salamence_front.png" id="3_y6qtl"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_ghg1e"]
+font_size = 20
+outline_size = 6
+outline_color = Color(0, 0, 0, 1)
+
+[sub_resource type="LabelSettings" id="LabelSettings_8hxgt"]
+font_size = 20
+outline_size = 6
+outline_color = Color(0, 0, 0, 1)
+
+[sub_resource type="LabelSettings" id="LabelSettings_l5i8v"]
+font_size = 36
+outline_size = 4
+outline_color = Color(0, 0, 0, 1)
 
 [node name="BattleScene" type="Control"]
 layout_mode = 3
@@ -9,6 +27,23 @@ anchors_preset = 0
 offset_right = 1024.0
 offset_bottom = 576.0
 script = ExtResource("1_xlje3")
+
+[node name="TextureRect" type="TextureRect" parent="."]
+layout_mode = 0
+offset_right = 1024.0
+offset_bottom = 576.0
+texture = ExtResource("2_ksci7")
+expand_mode = 1
+
+[node name="PlayerSprite" type="Sprite2D" parent="."]
+position = Vector2(319, 384)
+scale = Vector2(6, 6)
+texture = ExtResource("2_m8e0f")
+
+[node name="EnemySprite" type="Sprite2D" parent="."]
+position = Vector2(736, 160)
+scale = Vector2(5, 5)
+texture = ExtResource("3_y6qtl")
 
 [node name="AttackMenu" type="VBoxContainer" parent="."]
 visible = false
@@ -49,50 +84,53 @@ text = "Quick Attack"
 
 [node name="Enemy" type="VBoxContainer" parent="."]
 layout_mode = 0
-offset_right = 450.0
-offset_bottom = 120.0
+offset_right = 500.0
+offset_bottom = 50.0
 
 [node name="Name" type="Label" parent="Enemy"]
 layout_mode = 2
 text = "Enemy
 "
-horizontal_alignment = 1
+label_settings = SubResource("LabelSettings_ghg1e")
 
 [node name="HP" type="ProgressBar" parent="Enemy"]
-modulate = Color(0.823529, 0, 0, 1)
+modulate = Color(0.490196, 0.929412, 0.729412, 1)
+self_modulate = Color(0.490196, 0.929412, 0.729412, 1)
 layout_mode = 2
+size_flags_vertical = 3
 step = 1.0
 value = 100.0
 show_percentage = false
 
 [node name="Player" type="VBoxContainer" parent="."]
 layout_mode = 0
-offset_left = 572.0
-offset_top = 300.0
-offset_right = 1022.0
-offset_bottom = 420.0
+offset_left = 524.0
+offset_top = 320.0
+offset_right = 1024.0
+offset_bottom = 370.0
 
 [node name="Name" type="Label" parent="Player"]
 layout_mode = 2
 text = "Player
 "
-horizontal_alignment = 1
+label_settings = SubResource("LabelSettings_8hxgt")
 
 [node name="HP" type="ProgressBar" parent="Player"]
-modulate = Color(0.823529, 0, 0, 1)
+modulate = Color(0.490196, 0.929412, 0.729412, 1)
+self_modulate = Color(0.490196, 0.929412, 0.729412, 1)
 layout_mode = 2
+size_flags_vertical = 3
 step = 1.0
 value = 100.0
 show_percentage = false
 
 [node name="DescriptionBox" type="Label" parent="."]
 layout_mode = 2
-offset_top = 458.0
+offset_top = 416.0
 offset_right = 624.0
-offset_bottom = 577.0
+offset_bottom = 535.0
 text = "Wild monster appeared!"
-horizontal_alignment = 1
-vertical_alignment = 1
+label_settings = SubResource("LabelSettings_l5i8v")
 
 [node name="BattleMusic" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("2_ddap6")

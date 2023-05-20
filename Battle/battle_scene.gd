@@ -9,31 +9,54 @@ signal ui_select_pressed
 @onready var enemy : Monster = team[1]
 @onready var rng : RandomNumberGenerator = RandomNumberGenerator.new()
 
+
 const CRIT_CHANCE : int = 25
+const HP_BAR_SPEED : float = 1.5
 
 func _ready() -> void:
 	init_monsters(player, enemy)
 	init_moves(player)
 	rng.randomize()
-	
-	start_encounter()
 
-# I have to find a way to remove this check or see if it impacts in the performance or is irrelevant
-func _process(delta) -> void:
-	if Input.is_action_pressed("ui_select"):
-		emit_signal("ui_select_pressed")
+	start_encounter()
 
 func init_monsters(player : Monster = player, enemy : Monster = enemy) -> void:
 	$Enemy/Name.text = enemy.nickname
 	$Enemy/HP.max_value = enemy.hp
 	$Player/Name.text = player.nickname
 	$Player/HP.max_value = player.hp
-	
+
 #NULL the move array could be empty or an entry could be empty
 func init_moves(player : Monster = player) -> void:
 	# for loop to initialize all four moves
 	for i in range(0,4):
 		MovesBox.get_node("Move" + str(i)).text = player.moves[i].nickname
+
+func start_encounter() -> void:
+	await self.ui_select_pressed
+	$DescriptionBox.text = "Battle with " + enemy.nickname + " begins!"
+	await get_tree().create_timer(3.0).timeout
+	$DescriptionBox.visible = false
+	$AttackMenu.visible = true
+
+#OPTIMIZE I have to find a way to remove this check or see if it impacts in the performance or is irrelevant
+func _process(delta) -> void:
+	if Input.is_action_pressed("ui_select"):
+		emit_signal("ui_select_pressed")
+
+#NULL fare controllo se la mossa esista
+func compute_attack(attacker : Monster, attacked : Monster, move : Move) -> void:
+	if attacker.hp <= 0 or attacked.hp <= 0:
+		return
+	
+	if rng.randi_range(0,100) <= move.accuracy:
+		$DescriptionBox.text = attacker.nickname + " used " + move.nickname + "!"
+		$DescriptionBox.visible = true
+		animate_monster(attacker)
+		await get_tree().create_timer(1).timeout
+		damage_calculation(move, attacker, attacked)
+	else:
+		attack_missed(attacker)
 
 func damage_calculation(move : Move, attacker : Monster = player, attacked : Monster = enemy) -> void:
 	var critical_hit : float = 1.0
@@ -51,73 +74,65 @@ func damage_calculation(move : Move, attacker : Monster = player, attacked : Mon
 		false:
 			register_damage(enemy, player, third_par, $Player/HP)
 
+#OPTIMIZE set_value_no_signal() to avoid calling a signal whenever health changes?
 func register_damage(attacker : Monster, attacked : Monster, damage : int, health_bar : ProgressBar) -> void:
-	health_bar.value -= damage
+	var tween = get_tree().create_tween() #OPTIMIZE after the functions returns is this node removed?
+	tween.tween_property(health_bar, "value", health_bar.value - damage, HP_BAR_SPEED) # this works properly
+	#await till tween is finished
+	await get_tree().create_timer(HP_BAR_SPEED).timeout
+#	tween.interpolate_value(health_bar.value, damage, 2, 3, tween.TRANS_LINEAR, tween.EASE_OUT) how does this work?
 	attacked.hp -= damage
 	if attacked.hp <= 0:
 		end_battle(attacker)
+	elif attacker == enemy:
+		$AttackMenu.visible = true
 
 func end_battle(winner : Monster) -> void:
+	var tween = get_tree().create_tween()
 	$AttackMenu.visible = false
 	$DescriptionBox.text = winner.nickname + " won the battle!"
 	$DescriptionBox.visible = true
-	await get_tree().create_timer(3.0).timeout
-	self.visible = false
-
-func start_encounter() -> void:
-	await self.ui_select_pressed
-	$DescriptionBox.text = "Battle with " + enemy.nickname + " begins!"
-	await get_tree().create_timer(3.0).timeout
-	$DescriptionBox.visible = false
-	$AttackMenu.visible = true
 	
-func enemy_turn():
-	#remove the hud and make the enemy attack
+	tween.tween_property($BattleMusic, "volume_db", -80, 3)
+	await get_tree().create_timer(HP_BAR_SPEED).timeout
+	self.visible = false
+	
+func enemy_turn() -> void:
 	$AttackMenu.visible = false
 	compute_attack(enemy, player, enemy.moves[rng.randi_range(0,3)])
 
-	await get_tree().create_timer(3.0).timeout
-	$AttackMenu.visible = true
+	#OPTIMIZE I don't know why I need this timer, because the enemy turn is already awaited
+	await get_tree().create_timer(HP_BAR_SPEED).timeout
+	$DescriptionBox.visible = false
 
 #OPTIMIZE Maybe can be optimized?
 #NULL move could not exist
 func _on_move_1_pressed() -> void:
-	$AttackMenu.visible = false
-	compute_attack(player, enemy, player.moves[0])
-	await get_tree().create_timer(3.0).timeout
-	enemy_turn()
-
-#NULL move could not exist
+	generic_move_pressed(0)
 func _on_move_2_pressed() -> void:
-	$AttackMenu.visible = false
-	compute_attack(player, enemy, player.moves[1])
-	await get_tree().create_timer(3.0).timeout
-	enemy_turn()
-
-#NULL move could not exist
+	generic_move_pressed(1)
 func _on_move_3_pressed() -> void:
-	$AttackMenu.visible = false
-	compute_attack(player, enemy, player.moves[2])
-	await get_tree().create_timer(3.0).timeout
-	enemy_turn()
-
-#NULL move could not exist
+	generic_move_pressed(2)
 func _on_move_4_pressed() -> void:
+	generic_move_pressed(3)
+
+func generic_move_pressed(index : int) -> void:
 	$AttackMenu.visible = false
-	compute_attack(player, enemy, player.moves[3])
-	await get_tree().create_timer(3.0).timeout
+	compute_attack(player, enemy, player.moves[index])
+	await get_tree().create_timer(HP_BAR_SPEED + 1).timeout
 	enemy_turn()
 
 func attack_missed(attacker : Monster) -> void:
 	$DescriptionBox.text = attacker.nickname + " missed!"
-	$DescriptionBox.visible = true
-	await get_tree().create_timer(3.0).timeout
-	$DescriptionBox.visible = false
-	$AttackMenu.visible = true
+	await get_tree().create_timer(HP_BAR_SPEED).timeout
 
-#NULL fare controllo se la mossa esista
-func compute_attack(attacker : Monster, attacked : Monster, move : Move) -> void:
-	if rng.randi_range(0,100) <= move.accuracy:
-		damage_calculation(move, attacker, attacked)
+func animate_monster(monster : Monster) -> void: #ADD animation in input. Now the animation is the same for every monster
+	var tween = get_tree().create_tween() #OPTIMIZE after the functions returns is this node removed?
+	#BUG I don't know why the second tween starts before the first ends
+	if monster == player:
+		tween.tween_property($PlayerSprite, "position", $PlayerSprite.position + Vector2(50,0), 0.2)
+		tween.tween_property($PlayerSprite, "position", $PlayerSprite.position - Vector2(50,0), 0.3)
 	else:
-		attack_missed(attacker)
+		tween.tween_property($EnemySprite, "position", $EnemySprite.position - Vector2(50,0), 0.2)
+		tween.tween_property($EnemySprite, "position", $EnemySprite.position + Vector2(50,0), 0.3)
+	await get_tree().create_timer(1).timeout
