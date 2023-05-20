@@ -1,5 +1,12 @@
 [
 	{
+		"nickname" : "Earthball",
+		"power" : 40,
+		"accuracy" : 100,
+		"power_points" : 35,
+		"type" : 3
+	},
+	{
 		"nickname" : "Fireball",
 		"power" : 40,
 		"accuracy" : 100,
@@ -19,12 +26,5 @@
 		"accuracy" : 100,
 		"power_points" : 35,
 		"type" : 2
-	},
-	{
-		"nickname" : "Earthball",
-		"power" : 40,
-		"accuracy" : 100,
-		"power_points" : 35,
-		"type" : 3
 	}
 ]

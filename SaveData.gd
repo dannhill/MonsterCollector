@@ -31,7 +31,6 @@ static func load_team(path : String = "res://SaveData/team.json") -> Array[Monst
 					monsters[i].moves.push_back(Move.new(move.nickname, move.power, move.accuracy, move.power_points, move.type)) #NULL must check if this is null
 				else:
 					monsters[i].moves.push_back(null)
-			print(monsters[i].moves[3])
 		else:
 			monsters.append(null)
 		i += 1

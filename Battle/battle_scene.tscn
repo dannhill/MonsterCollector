@@ -1,6 +1,7 @@
-[gd_scene load_steps=2 format=3 uid="uid://c2qfrtmj3nsfe"]
+[gd_scene load_steps=3 format=3 uid="uid://c2qfrtmj3nsfe"]
 
 [ext_resource type="Script" path="res://Battle/battle_scene.gd" id="1_xlje3"]
+[ext_resource type="AudioStream" uid="uid://gc3ee8jborgq" path="res://Music/'Legionnaire' x2 by @ScottBuckley.mp3" id="2_ddap6"]
 
 [node name="BattleScene" type="Control"]
 layout_mode = 3
@@ -58,6 +59,7 @@ text = "Enemy
 horizontal_alignment = 1
 
 [node name="HP" type="ProgressBar" parent="Enemy"]
+modulate = Color(0.823529, 0, 0, 1)
 layout_mode = 2
 step = 1.0
 value = 100.0
@@ -77,6 +79,7 @@ text = "Player
 horizontal_alignment = 1
 
 [node name="HP" type="ProgressBar" parent="Player"]
+modulate = Color(0.823529, 0, 0, 1)
 layout_mode = 2
 step = 1.0
 value = 100.0
@@ -90,6 +93,12 @@ offset_bottom = 577.0
 text = "Wild monster appeared!"
 horizontal_alignment = 1
 vertical_alignment = 1
+
+[node name="BattleMusic" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("2_ddap6")
+volume_db = -19.745
+pitch_scale = 0.78
+autoplay = true
 
 [connection signal="pressed" from="AttackMenu/MovesBox/Move0" to="." method="_on_move_1_pressed"]
 [connection signal="pressed" from="AttackMenu/MovesBox/Move1" to="." method="_on_move_2_pressed"]

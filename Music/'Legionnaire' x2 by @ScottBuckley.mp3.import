@@ -1,0 +1,19 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+uid="uid://gc3ee8jborgq"
+path="res://.godot/imported/'Legionnaire' x2 by @ScottBuckley.mp3-d95a17ad2257394d4146ba4a4c1c9197.mp3str"
+
+[deps]
+
+source_file="res://Music/'Legionnaire' x2 by @ScottBuckley.mp3"
+dest_files=["res://.godot/imported/'Legionnaire' x2 by @ScottBuckley.mp3-d95a17ad2257394d4146ba4a4c1c9197.mp3str"]
+
+[params]
+
+loop=false
+loop_offset=0
+bpm=0
+beat_count=0
+bar_beats=4
