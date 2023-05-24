@@ -21,9 +21,9 @@ func _ready() -> void:
 	start_encounter()
 
 func init_monsters(player : Monster = player, enemy : Monster = enemy) -> void:
-	$Enemy/Name.text = enemy.nickname
+	$Enemy/Name.text = str(enemy.nickname) + " lvl." + str(enemy.level)
 	$Enemy/HP.max_value = enemy.hp
-	$Player/Name.text = player.nickname
+	$Player/Name.text = str(player.nickname) + " lvl." + str(enemy.level)
 	$Player/HP.max_value = player.hp
 
 #NULL the move array could be empty or an entry could be empty
@@ -127,12 +127,17 @@ func attack_missed(attacker : Monster) -> void:
 	await get_tree().create_timer(HP_BAR_SPEED).timeout
 
 func animate_monster(monster : Monster) -> void: #ADD animation in input. Now the animation is the same for every monster
-	var tween = get_tree().create_tween() #OPTIMIZE after the functions returns is this node removed?
+	var tween : Tween = create_tween() #OPTIMIZE after the functions returns is this node removed?
 	#BUG I don't know why the second tween starts before the first ends
+	var position : Vector2
 	if monster == player:
-		tween.tween_property($PlayerSprite, "position", $PlayerSprite.position + Vector2(50,0), 0.2)
-		tween.tween_property($PlayerSprite, "position", $PlayerSprite.position - Vector2(50,0), 0.3)
+		position = $PlayerSprite.position
+		tween.tween_property($PlayerSprite, "position", position + Vector2(50,0), 0.2)
+		position += Vector2(50,0)
+		tween.tween_property($PlayerSprite, "position", position - Vector2(50,0), 0.3)
 	else:
-		tween.tween_property($EnemySprite, "position", $EnemySprite.position - Vector2(50,0), 0.2)
-		tween.tween_property($EnemySprite, "position", $EnemySprite.position + Vector2(50,0), 0.3)
+		position = $EnemySprite.position
+		tween.tween_property($EnemySprite, "position", position - Vector2(50,0), 0.2)
+		position -= Vector2(50,0)
+		tween.tween_property($EnemySprite, "position", position + Vector2(50,0), 0.3)
 	await get_tree().create_timer(1).timeout
