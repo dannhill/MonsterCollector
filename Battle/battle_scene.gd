@@ -9,7 +9,6 @@ signal ui_select_pressed
 @onready var enemy : Monster = team[1]
 @onready var rng : RandomNumberGenerator = RandomNumberGenerator.new()
 
-
 const CRIT_CHANCE : int = 25
 const HP_BAR_SPEED : float = 1.5
 
@@ -23,7 +22,7 @@ func _ready() -> void:
 func init_monsters(player : Monster = player, enemy : Monster = enemy) -> void:
 	$Enemy/Name.text = str(enemy.nickname) + " lvl." + str(enemy.level)
 	$Enemy/HP.max_value = enemy.hp
-	$Player/Name.text = str(player.nickname) + " lvl." + str(enemy.level)
+	$Player/Name.text = str(player.nickname) + " lvl." + str(player.level)
 	$Player/HP.max_value = player.hp
 
 #NULL the move array could be empty or an entry could be empty
@@ -78,10 +77,10 @@ func damage_calculation(move : Move, attacker : Monster = player, attacked : Mon
 func register_damage(attacker : Monster, attacked : Monster, damage : int, health_bar : ProgressBar) -> void:
 	var tween = get_tree().create_tween() #OPTIMIZE after the functions returns is this node removed?
 	tween.tween_property(health_bar, "value", health_bar.value - damage, HP_BAR_SPEED) # this works properly
-	#await till tween is finished
+	tween.tween_callback(attacked.set.bind("hp", attacked.hp - damage))
 	await get_tree().create_timer(HP_BAR_SPEED).timeout
 #	tween.interpolate_value(health_bar.value, damage, 2, 3, tween.TRANS_LINEAR, tween.EASE_OUT) how does this work?
-	attacked.hp -= damage
+	# attacked.hp -= damage
 	if attacked.hp <= 0:
 		end_battle(attacker)
 	elif attacker == enemy:
