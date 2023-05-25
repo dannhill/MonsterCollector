@@ -45,9 +45,6 @@ func _process(delta) -> void:
 
 #NULL fare controllo se la mossa esista
 func compute_attack(attacker : Monster, attacked : Monster, move : Move) -> void:
-	if attacker.hp <= 0 or attacked.hp <= 0:
-		return
-	
 	if rng.randi_range(0,100) <= move.accuracy:
 		$DescriptionBox.text = attacker.nickname + " used " + move.nickname + "!"
 		$DescriptionBox.visible = true
@@ -65,7 +62,6 @@ func damage_calculation(move : Move, attacker : Monster = player, attacked : Mon
 	var first_par : float = 2 * attacker.level * 0.2  + 2
 	var second_par : float = first_par * move.power * attacker.attack / attacked.defense * 0.02 + 2
 	var third_par : int = int(second_par * (rng.randf_range(85,100) / 100) * critical_hit)
-	print(third_par)
 	# match to see if the attacker is player or enemy
 	match attacked == enemy:
 		true:
@@ -76,8 +72,8 @@ func damage_calculation(move : Move, attacker : Monster = player, attacked : Mon
 #OPTIMIZE set_value_no_signal() to avoid calling a signal whenever health changes?
 func register_damage(attacker : Monster, attacked : Monster, damage : int, health_bar : ProgressBar) -> void:
 	var tween = get_tree().create_tween() #OPTIMIZE after the functions returns is this node removed?
+	attacked.hp -= damage
 	tween.tween_property(health_bar, "value", health_bar.value - damage, HP_BAR_SPEED) # this works properly
-	tween.tween_callback(attacked.set.bind("hp", attacked.hp - damage))
 	await get_tree().create_timer(HP_BAR_SPEED).timeout
 #	tween.interpolate_value(health_bar.value, damage, 2, 3, tween.TRANS_LINEAR, tween.EASE_OUT) how does this work?
 	# attacked.hp -= damage
@@ -119,7 +115,9 @@ func generic_move_pressed(index : int) -> void:
 	$AttackMenu.visible = false
 	compute_attack(player, enemy, player.moves[index])
 	await get_tree().create_timer(HP_BAR_SPEED + 1).timeout
-	enemy_turn()
+	print(enemy.hp)
+	if enemy.hp > 0:
+		enemy_turn()
 
 func attack_missed(attacker : Monster) -> void:
 	$DescriptionBox.text = attacker.nickname + " missed!"
