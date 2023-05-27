@@ -16,14 +16,14 @@ func _ready() -> void:
 	init_monsters(player, enemy)
 	init_moves(player)
 	rng.randomize()
-
+	
 	start_encounter()
 
 func init_monsters(player : Monster = player, enemy : Monster = enemy) -> void:
-	$Enemy/Name.text = str(enemy.nickname) + " lvl." + str(enemy.level)
-	$Enemy/HP.max_value = enemy.hp
-	$Player/Name.text = str(player.nickname) + " lvl." + str(player.level)
-	$Player/HP.max_value = player.hp
+	$EnemyHUD/Name.text = str(enemy.nickname) + " lvl." + str(enemy.level)
+	$EnemyHUD/HP.max_value = enemy.hp
+	$PlayerHUD/Name.text = str(player.nickname) + " lvl." + str(player.level)
+	$PlayerHUD/HP.max_value = player.hp
 
 func init_moves(player : Monster = player) -> void:
 	if player.moves == null:
@@ -71,9 +71,9 @@ func damage_calculation(move : Move, attacker : Monster = player, attacked : Mon
 	# match to see if the attacker is player or enemy
 	match attacked == enemy:
 		true:
-			register_damage(player, enemy, third_par, $Enemy/HP)
+			register_damage(player, enemy, third_par, $EnemyHUD/HP)
 		false:
-			register_damage(enemy, player, third_par, $Player/HP)
+			register_damage(enemy, player, third_par, $PlayerHUD/HP)
 
 func register_damage(attacker : Monster, attacked : Monster, damage : int, health_bar : ProgressBar) -> void:
 	var tw : Tween = create_tween()

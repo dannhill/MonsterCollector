@@ -1,6 +1,6 @@
 extends Sprite2D
 
-@onready var enemy : Monster = get_node("/root/BattleScene").enemy
+#@onready var enemy : Monster = get_node("/root/BattleScene").enemy
 
 #OPTIMIZE almost same code as the PlayerSprite
 func animate() -> void: #ADD animation in input. Now the animation is the same for every monster
