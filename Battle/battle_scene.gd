@@ -51,7 +51,10 @@ func compute_attack(attacker : Monster, attacked : Monster, move : Move) -> void
 	if rng.randi_range(0,100) <= move.accuracy:
 		$DescriptionBox.text = attacker.nickname + " used " + move.nickname + "!"
 		$DescriptionBox.visible = true
-		animate_monster(attacker)
+		if attacker == player:
+			$PlayerSprite.animate()
+		else:
+			$EnemySprite.animate()
 		await get_tree().create_timer(1).timeout
 		damage_calculation(move, attacker, attacked)
 	else:
@@ -120,18 +123,3 @@ func generic_move_pressed(index : int) -> void:
 func attack_missed(attacker : Monster) -> void:
 	$DescriptionBox.text = attacker.nickname + " missed!"
 	await get_tree().create_timer(HP_BAR_SPEED).timeout
-
-func animate_monster(monster : Monster) -> void: #ADD animation in input. Now the animation is the same for every monster
-	var tw : Tween = create_tween()
-	var position : Vector2
-	if monster == player:
-		position = $PlayerSprite.position
-		tw.tween_property($PlayerSprite, "position", position + Vector2(50,0), 0.2)
-		position += Vector2(50,0)
-		tw.tween_property($PlayerSprite, "position", position - Vector2(50,0), 0.3)
-	else:
-		position = $EnemySprite.position
-		tw.tween_property($EnemySprite, "position", position - Vector2(50,0), 0.2)
-		position -= Vector2(50,0)
-		tw.tween_property($EnemySprite, "position", position + Vector2(50,0), 0.3)
-	await get_tree().create_timer(1).timeout
