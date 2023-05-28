@@ -1,11 +1,11 @@
 [gd_scene load_steps=11 format=3 uid="uid://c2qfrtmj3nsfe"]
 
 [ext_resource type="Script" path="res://Battle/battle_scene.gd" id="1_xlje3"]
+[ext_resource type="Texture2D" uid="uid://stkbqet6rkmt" path="res://Assets/background_b&w.png" id="2_6f2ko"]
 [ext_resource type="AudioStream" uid="uid://gc3ee8jborgq" path="res://Music/'Legionnaire' x2 by @ScottBuckley.mp3" id="2_ddap6"]
-[ext_resource type="Texture2D" uid="uid://stkbqet6rkmt" path="res://Sprites/background_b&w.png" id="2_ksci7"]
-[ext_resource type="Texture2D" uid="uid://d2jhgshwgoiwa" path="res://Sprites/pidgey_back.png" id="2_m8e0f"]
-[ext_resource type="Texture2D" uid="uid://dnfvmvk7dxmuc" path="res://Sprites/salamence_front.png" id="3_y6qtl"]
+[ext_resource type="Texture2D" uid="uid://d2jhgshwgoiwa" path="res://Assets/Monsters/pidgey_back.png" id="3_w4gj8"]
 [ext_resource type="Script" path="res://Battle/PlayerSprite.gd" id="4_ttwbc"]
+[ext_resource type="Texture2D" uid="uid://cexmossvvts5l" path="res://Assets/Monsters/Charinja-removebg.png" id="5_yuy8f"]
 [ext_resource type="Script" path="res://Battle/EnemySprite.gd" id="6_fu5br"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_ghg1e"]
@@ -31,22 +31,25 @@ offset_bottom = 576.0
 script = ExtResource("1_xlje3")
 
 [node name="TextureRect" type="TextureRect" parent="."]
+texture_filter = 1
 layout_mode = 0
 offset_right = 1024.0
 offset_bottom = 576.0
-texture = ExtResource("2_ksci7")
+texture = ExtResource("2_6f2ko")
 expand_mode = 1
 
 [node name="PlayerSprite" type="Sprite2D" parent="."]
+texture_filter = 1
 position = Vector2(319, 384)
 scale = Vector2(6, 6)
-texture = ExtResource("2_m8e0f")
+texture = ExtResource("3_w4gj8")
 script = ExtResource("4_ttwbc")
 
 [node name="EnemySprite" type="Sprite2D" parent="."]
-position = Vector2(736, 160)
-scale = Vector2(5, 5)
-texture = ExtResource("3_y6qtl")
+texture_filter = 1
+position = Vector2(736, 150)
+scale = Vector2(0.65, 0.65)
+texture = ExtResource("5_yuy8f")
 script = ExtResource("6_fu5br")
 
 [node name="AttackMenu" type="VBoxContainer" parent="."]
@@ -142,7 +145,7 @@ volume_db = -19.745
 pitch_scale = 0.78
 autoplay = true
 
-[connection signal="pressed" from="AttackMenu/MovesBox/Move0" to="." method="_on_move_1_pressed"]
-[connection signal="pressed" from="AttackMenu/MovesBox/Move1" to="." method="_on_move_2_pressed"]
-[connection signal="pressed" from="AttackMenu/MovesBox/Move2" to="." method="_on_move_3_pressed"]
-[connection signal="pressed" from="AttackMenu/MovesBox/Move3" to="." method="_on_move_4_pressed"]
+[connection signal="pressed" from="AttackMenu/MovesBox/Move0" to="PlayerSprite" method="_on_move_0_pressed"]
+[connection signal="pressed" from="AttackMenu/MovesBox/Move1" to="PlayerSprite" method="_on_move_1_pressed"]
+[connection signal="pressed" from="AttackMenu/MovesBox/Move2" to="PlayerSprite" method="_on_move_2_pressed"]
+[connection signal="pressed" from="AttackMenu/MovesBox/Move3" to="PlayerSprite" method="_on_move_3_pressed"]

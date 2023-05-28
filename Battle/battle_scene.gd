@@ -12,13 +12,6 @@ signal ui_select_pressed
 const CRIT_CHANCE : int = 25
 const HP_BAR_SPEED : float = 1.5
 
-func _ready() -> void:
-	init_monsters(player, enemy)
-	init_moves(player)
-	rng.randomize()
-	
-	start_encounter()
-
 func init_monsters(player : Monster = player, enemy : Monster = enemy) -> void:
 	$EnemyHUD/Name.text = str(enemy.nickname) + " lvl." + str(enemy.level)
 	$EnemyHUD/HP.max_value = enemy.hp
@@ -39,8 +32,14 @@ func start_encounter() -> void:
 	$DescriptionBox.visible = false
 	$AttackMenu.visible = true
 
+func _ready() -> void:
+	init_monsters(player, enemy)
+	init_moves(player)
+	rng.randomize()
+	start_encounter()
+
 func _process(delta) -> void:
-#OPTIMIZE Looks like it's irrelevant for the performance if I use is_action_just_pressed()
+	#OPTIMIZE Looks like it's irrelevant for the performance if I use is_action_just_pressed()
 	if Input.is_action_just_pressed("ui_select"):
 		emit_signal("ui_select_pressed")
 
@@ -50,6 +49,7 @@ func compute_attack(attacker : Monster, attacked : Monster, move : Move) -> void
 		return
 	if rng.randi_range(0,100) <= move.accuracy:
 		$DescriptionBox.text = attacker.nickname + " used " + move.nickname + "!"
+		print($DescriptionBox.text)
 		$DescriptionBox.visible = true
 		if attacker == player:
 			$PlayerSprite.animate()
@@ -86,6 +86,10 @@ func register_damage(attacker : Monster, attacked : Monster, damage : int, healt
 	elif attacker == enemy:
 		$AttackMenu.visible = true
 
+func attack_missed(attacker : Monster) -> void:
+	$DescriptionBox.text = attacker.nickname + " missed!"
+	await get_tree().create_timer(HP_BAR_SPEED).timeout
+
 func end_battle(winner : Monster) -> void:
 	var tw : Tween = create_tween()
 	$AttackMenu.visible = false
@@ -95,31 +99,3 @@ func end_battle(winner : Monster) -> void:
 	tw.tween_property($BattleMusic, "volume_db", -80, 3)
 	await get_tree().create_timer(HP_BAR_SPEED).timeout
 	self.visible = false
-	
-func enemy_turn() -> void:
-	$AttackMenu.visible = false
-	compute_attack(enemy, player, enemy.moves[rng.randi_range(0,3)])
-	$DescriptionBox.visible = false
-
-#OPTIMIZE Maybe can be optimized?
-#NULL move could not exist
-func _on_move_1_pressed() -> void:
-	generic_move_pressed(0)
-func _on_move_2_pressed() -> void:
-	generic_move_pressed(1)
-func _on_move_3_pressed() -> void:
-	generic_move_pressed(2)
-func _on_move_4_pressed() -> void:
-	generic_move_pressed(3)
-
-func generic_move_pressed(index : int) -> void:
-	$AttackMenu.visible = false
-	compute_attack(player, enemy, player.moves[index])
-	await get_tree().create_timer(HP_BAR_SPEED + 1).timeout
-	print(enemy.hp)
-	if enemy.hp > 0:
-		enemy_turn()
-
-func attack_missed(attacker : Monster) -> void:
-	$DescriptionBox.text = attacker.nickname + " missed!"
-	await get_tree().create_timer(HP_BAR_SPEED).timeout

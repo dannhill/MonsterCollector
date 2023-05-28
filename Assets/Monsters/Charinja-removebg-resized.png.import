@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://stkbqet6rkmt"
-path="res://.godot/imported/background_b&w.png-a77c80feffce1d5d55330820e0cf24e3.ctex"
+uid="uid://beumb0ppgqv8d"
+path="res://.godot/imported/Charinja-removebg-resized.png-32ce9d82e3bd6a64cb488396827c4bcc.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Sprites/background_b&w.png"
-dest_files=["res://.godot/imported/background_b&w.png-a77c80feffce1d5d55330820e0cf24e3.ctex"]
+source_file="res://Assets/Monsters/Charinja-removebg-resized.png"
+dest_files=["res://.godot/imported/Charinja-removebg-resized.png-32ce9d82e3bd6a64cb488396827c4bcc.ctex"]
 
 [params]
 

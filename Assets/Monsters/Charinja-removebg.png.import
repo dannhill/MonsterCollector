@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://dnfvmvk7dxmuc"
-path="res://.godot/imported/salamence_front.png-f68c692c36e648d78c7c7fa533043c69.ctex"
+uid="uid://cexmossvvts5l"
+path="res://.godot/imported/Charinja-removebg.png-17824dfeb9dccb70ecb1f71b6f1966bb.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Sprites/salamence_front.png"
-dest_files=["res://.godot/imported/salamence_front.png-f68c692c36e648d78c7c7fa533043c69.ctex"]
+source_file="res://Assets/Monsters/Charinja-removebg.png"
+dest_files=["res://.godot/imported/Charinja-removebg.png-17824dfeb9dccb70ecb1f71b6f1966bb.ctex"]
 
 [params]
 

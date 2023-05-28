@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://d2jhgshwgoiwa"
-path="res://.godot/imported/pidgey_back.png-5acdd7c195b59c2c4e2287091493789d.ctex"
+uid="uid://y8ign1mam6e2"
+path="res://.godot/imported/Charinja.jpg-b67ae1e0781224bae3f06deaa053617c.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Sprites/pidgey_back.png"
-dest_files=["res://.godot/imported/pidgey_back.png-5acdd7c195b59c2c4e2287091493789d.ctex"]
+source_file="res://Assets/Monsters/Charinja.jpg"
+dest_files=["res://.godot/imported/Charinja.jpg-b67ae1e0781224bae3f06deaa053617c.ctex"]
 
 [params]
 
