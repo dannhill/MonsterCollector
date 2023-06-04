@@ -75,7 +75,7 @@ func damage_calculation(move : Move, attacker : Monster = player, attacked : Mon
 		false:
 			register_damage(enemy, player, third_par, $PlayerHUD/HP)
 
-func register_damage(attacker : Monster, attacked : Monster, damage : int, health_bar : ProgressBar) -> void:
+func register_damage(attacker : Monster, attacked : Monster, damage : int, health_bar : Range) -> void:
 	var tw : Tween = create_tween()
 	attacked.hp -= damage
 #I don't know if tween_property emits signal when it changes healthbar value, but I don't think it is much relevant
