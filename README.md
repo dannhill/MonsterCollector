@@ -1,5 +1,5 @@
 # MonsterCollector
-Monster collector videogame made in Godot 4
+Monster collector prototype made in Godot 4
 
 Codes in comments:
 
